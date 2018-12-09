@@ -1,0 +1,74 @@
+
+<div ng-controller="BookController as book">
+
+	<div ng-if="book.message" class="alert alert-danger">{{ book.message }}</div>
+	<div ng-if="book.message" class="alert alert-info">{{ book.message }}</div>
+	<div class="row">
+		<div class="col-md-6">
+
+			<!-- bootstrap error alert -->
+			<div class="alert alert-danger alert-dismissible" ng-show="book.error" >
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				{{errorMessage}}Error
+			</div>
+
+			<!-- bootstrap success alert -->
+			<div class="alert alert-success alert-dismissible" ng-show="book.success">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				{{successMessage}}Success
+			</div>
+
+			<form method="POST" role="form" ng-submit="book.saveBook()">
+				<div class="form-group">
+					<label for="">Name</label>
+					<input type="text" class="form-control" placeholder="Book Name" ng-model="book.add_book.name">
+				</div>
+
+				<div class="form-group">
+					<label for="">Price</label>
+					<input type="text" class="form-control" placeholder="Price" ng-model="book.add_book.price">
+				</div>
+
+				<div class="form-group">
+					<label for="">Author</label>
+					<input type="text" class="form-control" placeholder="Author Name" ng-model="book.add_book.author">
+				</div>
+
+				<div class="form-group">
+					<label for="">ISBN Nymber</label>
+					<input type="text" class="form-control" placeholder="ISBN Nymber" ng-model="book.add_book.ISBN">
+				</div>	
+
+				<div class="form-group">
+					<label for="">Category</label>
+					<input type="text" class="form-control" placeholder="Category" ng-model="book.add_book.category">
+				</div>	
+				<input type="hidden" ng-model="book.add_book.id">
+				<button type="submit" class="btn btn-primary">Save</button>
+			</form>
+		</div>
+		<div class="col-md-6">
+				<table datatable="ng" dt-options="vm.dtOptions" class="table table-bordered table-striped" ng-init="book.getAllBook()">
+			    <thead>
+			      <tr>
+			        <th>Book Name</th>
+			        <th>Price</th>
+			        <th>Author</th>
+			        <th>Action</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			      <tr ng-repeat="bookLists in book.books" ng-click="book.getBookByIsbn(bookLists.ISBN)">
+			        <td style="width: 100px;">{{ bookLists.name }}</td>
+			        <td style="width: 40px;">{{ bookLists.price }}</td>
+			        <td style="width: 100px;">{{ bookLists.author }}</td>
+			        <td><button type="button" class="btn btn-info" ng-click="book.editBook(bookLists.id)">Edit</button>&nbsp;&nbsp;<button type="button" class="btn btn-danger" ng-click="book.deleteBook(bookLists.id)">Delete</button></td>
+
+			      </tr>
+			    
+			    </tbody>
+    		</table>
+		</div>
+	</div>
+	
+</div>
